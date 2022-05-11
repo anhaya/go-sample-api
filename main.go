@@ -1,3 +1,7 @@
 package main
 
-// here I will just call initServer in cmd/server.go
+import "github.com/anhaya/go-sample-api/cmd"
+
+func main() {
+	cmd.Execute()
+}

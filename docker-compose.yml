@@ -1,0 +1,28 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8
+    command: mysqld --init-file="/data/application/init.sql"
+    volumes:
+      - ./ops/db/init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: goapi
+      MYSQL_DATABASE: goapi
+    ports:
+      - "3306:3306"
+    container_name: mysql
+    network_mode: "bridge"
+    healthcheck:
+      test: "mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD"
+      interval: 2s
+      timeout: 20s
+      retries: 10
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    container_name: go-sample-api
+    network_mode: "bridge"
+    depends_on:
+      mysql:
+        condition: service_healthy 
