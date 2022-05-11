@@ -1,0 +1,116 @@
+definitions:
+  handler.CreateAccountRequest:
+    properties:
+      balance:
+        type: number
+      document_number:
+        maxLength: 15
+        type: string
+    required:
+    - balance
+    - document_number
+    type: object
+  handler.CreateTransactionRequest:
+    properties:
+      account_id:
+        type: integer
+      amount:
+        type: number
+      operation_type_id:
+        maximum: 4
+        minimum: 1
+        type: integer
+    required:
+    - account_id
+    - amount
+    - operation_type_id
+    type: object
+  handler.GetAccountResponse:
+    properties:
+      balance:
+        type: number
+      document_number:
+        type: string
+      id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /accounts:
+    post:
+      consumes:
+      - application/json
+      description: Create Account according to document number
+      parameters:
+      - description: Account to create
+        in: body
+        name: Account
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateAccountRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+  /accounts/{accountId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Account according to account id
+      parameters:
+      - description: Account id to search
+        in: path
+        name: accountId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetAccountResponse'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+  /transactions:
+    post:
+      consumes:
+      - application/json
+      description: Create Transaction
+      parameters:
+      - description: Transaction to create
+        in: body
+        name: Transaction
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+swagger: "2.0"
