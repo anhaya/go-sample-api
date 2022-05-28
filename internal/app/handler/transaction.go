@@ -11,12 +11,12 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type transactionHandler struct {
+type TransactionHandler struct {
 	usecase transaction.UseCase
 }
 
-func NewTransaction(usecase transaction.UseCase) transactionHandler {
-	return transactionHandler{
+func NewTransaction(usecase transaction.UseCase) TransactionHandler {
+	return TransactionHandler{
 		usecase: usecase,
 	}
 }
@@ -37,7 +37,7 @@ type CreateTransactionRequest struct {
 // @Success 201 "created"
 // @Failure 400 {object} string
 // @Failure 500 {object} string
-func (t transactionHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (t TransactionHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var input CreateTransactionRequest
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {

@@ -13,12 +13,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type accountHandler struct {
+type AccountHandler struct {
 	core account.UseCase
 }
 
-func NewAccount(core account.UseCase) accountHandler {
-	return accountHandler{
+func NewAccount(core account.UseCase) AccountHandler {
+	return AccountHandler{
 		core: core,
 	}
 }
@@ -44,7 +44,7 @@ type GetAccountResponse struct {
 // @Success 201 "created"
 // @Failure 400 {object} string
 // @Failure 500 {object} string
-func (a accountHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (a AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var input CreateAccountRequest
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
@@ -96,7 +96,7 @@ func (a accountHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} GetAccountResponse
 // @Failure 404 {object} string
 // @Failure 500 {object} string
-func (a accountHandler) Get(w http.ResponseWriter, r *http.Request) {
+func (a AccountHandler) Get(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	acountId, err := strconv.Atoi(params["accountId"])
 	if err != nil {
