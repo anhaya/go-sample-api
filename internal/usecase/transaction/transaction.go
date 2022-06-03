@@ -10,21 +10,21 @@ import (
 	pkgDb "github.com/anhaya/go-sample-api/pkg"
 )
 
-type transactionCore struct {
+type TransactionUseCase struct {
 	dbRepository   mysql.Repository
 	tRepository    Repository
 	accountUseCase account.UseCase
 }
 
-func NewTransaction(dbRepository mysql.Repository, tRepository Repository, accountUseCase account.UseCase) transactionCore {
-	return transactionCore{
+func NewTransaction(dbRepository mysql.Repository, tRepository Repository, accountUseCase account.UseCase) TransactionUseCase {
+	return TransactionUseCase{
 		dbRepository:   dbRepository,
 		tRepository:    tRepository,
 		accountUseCase: accountUseCase,
 	}
 }
 
-func (t transactionCore) Create(accountId int, operationTypeId int, amount float64) error {
+func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount float64) error {
 	transaction := entity.Transaction{
 		AccountId:       accountId,
 		OperationTypeId: operationTypeId,

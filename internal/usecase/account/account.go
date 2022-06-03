@@ -6,17 +6,17 @@ import (
 	"github.com/anhaya/go-sample-api/internal/entity"
 )
 
-type accountCore struct {
+type AccountUseCase struct {
 	accountRepository Repository
 }
 
-func NewAccount(accountRepository Repository) accountCore {
-	return accountCore{
+func NewAccount(accountRepository Repository) AccountUseCase {
+	return AccountUseCase{
 		accountRepository: accountRepository,
 	}
 }
 
-func (a accountCore) Create(documentNumber string, balance float64) (int64, error) {
+func (a AccountUseCase) Create(documentNumber string, balance float64) (int64, error) {
 	id, err := a.accountRepository.Create(documentNumber, balance)
 	if err != nil {
 		fmt.Printf("error in persisting account `%s`", err)
@@ -25,7 +25,7 @@ func (a accountCore) Create(documentNumber string, balance float64) (int64, erro
 	return id, nil
 }
 
-func (a accountCore) Update(accountId int, balance float64) error {
+func (a AccountUseCase) Update(accountId int, balance float64) error {
 	err := a.accountRepository.Update(accountId, balance)
 	if err != nil {
 		fmt.Printf("error in updating account `%s`", err)
@@ -34,7 +34,7 @@ func (a accountCore) Update(accountId int, balance float64) error {
 	return nil
 }
 
-func (a accountCore) Get(accountId int) (entity.Account, error) {
+func (a AccountUseCase) Get(accountId int) (entity.Account, error) {
 	account, err := a.accountRepository.Get(accountId)
 	if err != nil {
 		fmt.Printf("error in getting account `%s`", err)
