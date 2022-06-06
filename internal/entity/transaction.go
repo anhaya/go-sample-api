@@ -1,8 +1,8 @@
 package entity
 
 const (
-	DEBITO  = 1
-	CREDITO = 2
+	SAQUE    = 1
+	DEPOSITO = 2
 )
 
 type Transaction struct {

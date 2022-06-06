@@ -37,12 +37,18 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 		return err
 	}
 
-	newLimit := account.Balance + amount
-	if operationTypeId == entity.CREDITO {
-		if account.Balance < amount {
-			return entity.ErrInvalidLimit
-		}
-		newLimit = account.Balance - amount
+	var newBalance float64
+	switch operationTypeId {
+	case entity.SAQUE:
+		newBalance = account.Balance - amount
+	case entity.DEPOSITO:
+		newBalance = account.Balance + amount
+	default:
+		return entity.ErrInternalServer
+	}
+
+	if newBalance < 0 {
+		return entity.ErrInvalidLimit
 	}
 
 	err = t.dbRepository.Atomic(func(dbexecutor pkgDb.DBExecutor) error {
@@ -56,7 +62,7 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 			return entity.ErrInternalServer
 		}
 
-		err = newAccountCore.Update(accountId, newLimit)
+		err = newAccountCore.Update(accountId, newBalance)
 		if err != nil {
 			fmt.Printf("error in updating transaction `%s`", err)
 			return entity.ErrInternalServer

@@ -27,4 +27,3 @@ Gorilla Mux<br/>
 
 ### Throubleshoting
 In case "swag command not found" ```export PATH=$PATH:$HOME/go/bin```<br/>
-Example to generate new mocks: ```mockery --name=Repository --output=test/mocks```

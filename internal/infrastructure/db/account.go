@@ -39,8 +39,8 @@ func (a accountIfra) Create(documentNumber string, balance float64) (int64, erro
 	return id, nil
 }
 
-func (t accountIfra) Update(accountId int, newLimit float64) error {
-	_, err := t.db.Exec("update account set balance = ? where id = ?", newLimit,
+func (t accountIfra) Update(accountId int, newBalance float64) error {
+	_, err := t.db.Exec("update account set balance = ? where id = ?", newBalance,
 		accountId)
 
 	if err != nil {
