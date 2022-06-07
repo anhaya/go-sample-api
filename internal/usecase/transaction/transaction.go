@@ -51,7 +51,12 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 		return entity.ErrInvalidLimit
 	}
 
-	err = t.dbRepository.Atomic(func(dbexecutor pkgDb.DBExecutor) error {
+	err = t.dbRepository.Atomic(t.CreateAtomic(transaction, newBalance))
+	return err
+}
+
+func (t TransactionUseCase) CreateAtomic(transaction entity.Transaction, newBalance float64) func(dbexecutor pkgDb.DBExecutor) error {
+	return func(dbexecutor pkgDb.DBExecutor) error {
 		newTransactionRepo := infraDb.NewTransaction(dbexecutor)
 		newAccountCore := infraDb.NewAccount(dbexecutor)
 
@@ -62,13 +67,12 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 			return entity.ErrInternalServer
 		}
 
-		err = newAccountCore.Update(accountId, newBalance)
+		err = newAccountCore.Update(transaction.AccountId, newBalance)
 		if err != nil {
 			fmt.Printf("error in updating transaction `%s`", err)
 			return entity.ErrInternalServer
 		}
 
 		return err
-	})
-	return err
+	}
 }
