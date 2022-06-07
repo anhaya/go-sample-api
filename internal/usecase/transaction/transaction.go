@@ -25,16 +25,10 @@ func NewTransaction(dbRepository mysql.Repository, tRepository Repository, accou
 }
 
 func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount float64) error {
-	transaction := entity.Transaction{
-		AccountId:       accountId,
-		OperationTypeId: operationTypeId,
-		Amount:          amount,
-	}
-
 	account, err := t.accountUseCase.Get(accountId)
 
 	if err != nil {
-		return err
+		return entity.ErrInternalServer
 	}
 
 	var newBalance float64
@@ -51,15 +45,24 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 		return entity.ErrInvalidLimit
 	}
 
-	err = t.dbRepository.Atomic(t.CreateAtomic(transaction, newBalance))
-	return err
+	err = t.dbRepository.Atomic(t.CreateAtomic(accountId, operationTypeId, amount, newBalance))
+	if err != nil {
+		return entity.ErrInternalServer
+	}
+
+	return nil
 }
 
-func (t TransactionUseCase) CreateAtomic(transaction entity.Transaction, newBalance float64) func(dbexecutor pkgDb.DBExecutor) error {
+func (t TransactionUseCase) CreateAtomic(accountId int, operationTypeId int, amount float64, newBalance float64) func(dbexecutor pkgDb.DBExecutor) error {
 	return func(dbexecutor pkgDb.DBExecutor) error {
 		newTransactionRepo := infraDb.NewTransaction(dbexecutor)
 		newAccountCore := infraDb.NewAccount(dbexecutor)
 
+		transaction := entity.Transaction{
+			AccountId:       accountId,
+			OperationTypeId: operationTypeId,
+			Amount:          amount,
+		}
 		err := newTransactionRepo.Create(transaction)
 
 		if err != nil {
