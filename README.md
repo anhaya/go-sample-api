@@ -6,6 +6,8 @@ Golang<br/>
 Docker<br/>
 Mysql<br/>
 Gorilla Mux<br/>
+Testify<br/>
+Mockery<br/>
 
 ## Setup
 
@@ -13,6 +15,7 @@ Gorilla Mux<br/>
 2. (Mandatory) Install docker and docker-compose
 3. (Optional) Install tools: </br>
       go get -u github.com/swaggo/swag/cmd/swag;
+      go install github.com/vektra/mockery/v2@latest;
 4. (Optional) go mod tidy
 
 **Optional tools means that its only necessary if you are going to develop or run using IDE
@@ -27,3 +30,4 @@ Gorilla Mux<br/>
 
 ### Throubleshoting
 In case "swag command not found" ```export PATH=$PATH:$HOME/go/bin```<br/>
+Example to generate new mocks: ```mockery --name=Repository --output=test/mocks```

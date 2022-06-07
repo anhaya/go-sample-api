@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/spf13/viper v1.11.0
+	github.com/stretchr/testify v1.7.1
 	github.com/swaggo/http-swagger v1.2.8
 	github.com/swaggo/swag v1.8.1
 	github.com/urfave/negroni v1.0.0
