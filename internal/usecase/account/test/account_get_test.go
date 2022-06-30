@@ -23,7 +23,7 @@ func (suite *TestAccountGetSuite) SetupTest() {
 
 func (suite *TestAccountGetSuite) TestGet_Success() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 
 	//and: mock repository
 	suite.repository.On("Get", accountId).Return(entity.Account{Id: accountId}, nil)
@@ -39,7 +39,7 @@ func (suite *TestAccountGetSuite) TestGet_Success() {
 
 func (suite *TestAccountGetSuite) TestGet_ErrorNotFound() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 
 	//and: mock repository
 	suite.repository.On("Get", accountId).Return(entity.Account{}, nil)
@@ -55,7 +55,7 @@ func (suite *TestAccountGetSuite) TestGet_ErrorNotFound() {
 
 func (suite *TestAccountGetSuite) TestGet_ErrorRepository() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 
 	//and: mock repository
 	mockedError := errors.New("qualquer erro")

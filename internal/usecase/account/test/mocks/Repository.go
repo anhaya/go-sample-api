@@ -12,40 +12,33 @@ type Repository struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: documentNumber, balance
-func (_m *Repository) Create(documentNumber string, balance float64) (int64, error) {
-	ret := _m.Called(documentNumber, balance)
+// Create provides a mock function with given fields: accountID, documentNumber, balance
+func (_m *Repository) Create(accountID string, documentNumber string, balance float64) error {
+	ret := _m.Called(accountID, documentNumber, balance)
 
-	var r0 int64
-	if rf, ok := ret.Get(0).(func(string, float64) int64); ok {
-		r0 = rf(documentNumber, balance)
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, string, float64) error); ok {
+		r0 = rf(accountID, documentNumber, balance)
 	} else {
-		r0 = ret.Get(0).(int64)
+		r0 = ret.Error(0)
 	}
 
-	var r1 error
-	if rf, ok := ret.Get(1).(func(string, float64) error); ok {
-		r1 = rf(documentNumber, balance)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
 // Get provides a mock function with given fields: accountId
-func (_m *Repository) Get(accountId int) (entity.Account, error) {
+func (_m *Repository) Get(accountId string) (entity.Account, error) {
 	ret := _m.Called(accountId)
 
 	var r0 entity.Account
-	if rf, ok := ret.Get(0).(func(int) entity.Account); ok {
+	if rf, ok := ret.Get(0).(func(string) entity.Account); ok {
 		r0 = rf(accountId)
 	} else {
 		r0 = ret.Get(0).(entity.Account)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
+	if rf, ok := ret.Get(1).(func(string) error); ok {
 		r1 = rf(accountId)
 	} else {
 		r1 = ret.Error(1)
@@ -55,11 +48,11 @@ func (_m *Repository) Get(accountId int) (entity.Account, error) {
 }
 
 // Update provides a mock function with given fields: accountId, balance
-func (_m *Repository) Update(accountId int, balance float64) error {
+func (_m *Repository) Update(accountId string, balance float64) error {
 	ret := _m.Called(accountId, balance)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(int, float64) error); ok {
+	if rf, ok := ret.Get(0).(func(string, float64) error); ok {
 		r0 = rf(accountId, balance)
 	} else {
 		r0 = ret.Error(0)

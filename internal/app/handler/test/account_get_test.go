@@ -28,7 +28,7 @@ func (suite *TestAccountGetSuite) TestGet_Succcess() {
 	//given:
 
 	//and: mock repository
-	suite.useCase.On("Get", 1).Return(entity.Account{Id: 1}, nil)
+	suite.useCase.On("Get", "1").Return(entity.Account{Id: "1"}, nil)
 
 	//when: get account
 	request, _ := http.NewRequest("GET", "/accounts", nil)
@@ -45,29 +45,12 @@ func (suite *TestAccountGetSuite) TestGet_Succcess() {
 	//TODO - We should assert response body here as well
 }
 
-func (suite *TestAccountGetSuite) TestGet_InvalidParameter() {
-	//given:
-
-	//when: get account
-	request, _ := http.NewRequest("GET", "/accounts", nil)
-	vars := map[string]string{
-		"accountId": "abc",
-	}
-	request = mux.SetURLVars(request, vars)
-	response := httptest.NewRecorder()
-	suite.handler.Get(response, request)
-
-	//then: validate response
-	suite.Equal(http.StatusBadRequest, response.Code)
-	//TODO - We should assert response body here as well
-}
-
 func (suite *TestAccountGetSuite) TestGet_ErrorUseCase() {
 	//given:
 
 	//and: mock usecase
 	mockError := errors.New("core error")
-	suite.useCase.On("Get", 1).Return(entity.Account{}, mockError)
+	suite.useCase.On("Get", "1").Return(entity.Account{}, mockError)
 
 	//when: get account
 	request, _ := http.NewRequest("GET", "/accounts", nil)

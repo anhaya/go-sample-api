@@ -33,12 +33,12 @@ func (suite *TestTransactionCreateSuite) SetupTest() {
 
 func (suite *TestTransactionCreateSuite) TestCreate_SuccessDeposito() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	operationTypeId := entity.DEPOSITO
 	amount := 100.00
 
 	//and: mocks
-	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: 1, Balance: 200}, nil)
+	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: accountId, Balance: 200}, nil)
 	suite.mysqlRepository.On("Atomic", mock.Anything).Return(nil)
 
 	//when: call usecase
@@ -52,12 +52,12 @@ func (suite *TestTransactionCreateSuite) TestCreate_SuccessDeposito() {
 
 func (suite *TestTransactionCreateSuite) TestCreate_SuccessSaque() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	operationTypeId := entity.SAQUE
 	amount := 100.00
 
 	//and: mocks
-	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: 1, Balance: 200}, nil)
+	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: accountId, Balance: 200}, nil)
 	suite.mysqlRepository.On("Atomic", mock.Anything).Return(nil)
 
 	//when: call usecase
@@ -71,7 +71,7 @@ func (suite *TestTransactionCreateSuite) TestCreate_SuccessSaque() {
 
 func (suite *TestTransactionCreateSuite) TestCreate_ErrorGetAccount() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	operationTypeId := entity.SAQUE
 	amount := 100.00
 
@@ -89,12 +89,12 @@ func (suite *TestTransactionCreateSuite) TestCreate_ErrorGetAccount() {
 
 func (suite *TestTransactionCreateSuite) TestCreate_ErrorInvalidLimit() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	operationTypeId := entity.SAQUE
 	amount := 100.00
 
 	//and: mocks
-	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: 1, Balance: 50}, nil)
+	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: accountId, Balance: 50}, nil)
 
 	//when: call usecase
 	err := suite.usecase.Create(accountId, operationTypeId, amount)
@@ -106,13 +106,13 @@ func (suite *TestTransactionCreateSuite) TestCreate_ErrorInvalidLimit() {
 
 func (suite *TestTransactionCreateSuite) TestCreate_ErrorAtomicRepository() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	operationTypeId := entity.SAQUE
 	amount := 100
 
 	//and: mocks
 	mockedRepo := errors.New("qualquer erro")
-	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: 1, Balance: 200}, nil)
+	suite.accountUseCase.On("Get", accountId).Return(entity.Account{Id: accountId, Balance: 200}, nil)
 	suite.mysqlRepository.On("Atomic", mock.Anything).Return(mockedRepo)
 
 	//when: call usecase

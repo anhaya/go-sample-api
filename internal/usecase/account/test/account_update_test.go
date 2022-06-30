@@ -23,7 +23,7 @@ func (suite *TestAccountCreateSuite) Setuptest() {
 
 func (suite *TestAccountCreateSuite) TestUpdate_Sucess() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	balance := 100.00
 
 	//and: mock repository
@@ -39,7 +39,7 @@ func (suite *TestAccountCreateSuite) TestUpdate_Sucess() {
 
 func (suite *TestAccountCreateSuite) TestUpdate_Error() {
 	//given: prepare params
-	accountId := 1
+	accountId := "1"
 	balance := 100.00
 
 	//and: mock repository

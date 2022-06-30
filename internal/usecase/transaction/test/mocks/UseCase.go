@@ -10,11 +10,11 @@ type UseCase struct {
 }
 
 // Create provides a mock function with given fields: accountId, operationTypeId, amount
-func (_m *UseCase) Create(accountId int, operationTypeId int, amount float64) error {
+func (_m *UseCase) Create(accountId string, operationTypeId int, amount float64) error {
 	ret := _m.Called(accountId, operationTypeId, amount)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(int, int, float64) error); ok {
+	if rf, ok := ret.Get(0).(func(string, int, float64) error); ok {
 		r0 = rf(accountId, operationTypeId, amount)
 	} else {
 		r0 = ret.Error(0)
