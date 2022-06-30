@@ -1,7 +1,7 @@
 package entity
 
 type Account struct {
-	Id             int
+	Id             string
 	DocumentNumber string
 	Balance        float64
 }

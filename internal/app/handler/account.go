@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	customValidate "github.com/anhaya/go-sample-api/internal/app/validate"
 	"github.com/anhaya/go-sample-api/internal/entity"
@@ -29,7 +28,7 @@ type CreateAccountRequest struct {
 }
 
 type GetAccountResponse struct {
-	ID             int     `json:"id"`
+	ID             string  `json:"id"`
 	DocumentNumber string  `json:"document_number"`
 	Balance        float64 `json:"balance"`
 }
@@ -76,7 +75,7 @@ func (a AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	toJ := GetAccountResponse{
-		ID: int(id),
+		ID: id,
 	}
 
 	if err := json.NewEncoder(w).Encode(toJ); err != nil {
@@ -98,13 +97,7 @@ func (a AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {object} string
 func (a AccountHandler) Get(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	acountId, err := strconv.Atoi(params["accountId"])
-	if err != nil {
-		fmt.Printf("Error in getting accountId header as integer `%s`", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
-		return
-	}
+	acountId := params["accountId"]
 
 	//call GET
 	account, err := a.core.Get(acountId)
