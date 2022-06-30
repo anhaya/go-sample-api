@@ -7,7 +7,7 @@ const (
 
 type Transaction struct {
 	Id              int
-	AccountId       int
+	AccountId       string
 	OperationTypeId int
 	Amount          float64
 	EventDate       string

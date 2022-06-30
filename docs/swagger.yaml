@@ -13,11 +13,11 @@ definitions:
   handler.CreateTransactionRequest:
     properties:
       account_id:
-        type: integer
+        type: string
       amount:
         type: number
       operation_type_id:
-        maximum: 4
+        maximum: 2
         minimum: 1
         type: integer
     required:
@@ -32,7 +32,7 @@ definitions:
       document_number:
         type: string
       id:
-        type: integer
+        type: string
     type: object
 info:
   contact: {}

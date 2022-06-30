@@ -24,7 +24,7 @@ func NewTransaction(dbRepository mysql.Repository, tRepository Repository, accou
 	}
 }
 
-func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount float64) error {
+func (t TransactionUseCase) Create(accountId string, operationTypeId int, amount float64) error {
 	account, err := t.accountUseCase.Get(accountId)
 
 	if err != nil {
@@ -53,7 +53,7 @@ func (t TransactionUseCase) Create(accountId int, operationTypeId int, amount fl
 	return nil
 }
 
-func (t TransactionUseCase) createAtomic(accountId int, operationTypeId int, amount float64, newBalance float64) func(dbexecutor pkgDb.DBExecutor) error {
+func (t TransactionUseCase) createAtomic(accountId string, operationTypeId int, amount float64, newBalance float64) func(dbexecutor pkgDb.DBExecutor) error {
 	return func(dbexecutor pkgDb.DBExecutor) error {
 		newTransactionRepo := infraDb.NewTransaction(dbexecutor)
 		newAccountCore := infraDb.NewAccount(dbexecutor)

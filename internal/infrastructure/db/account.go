@@ -15,31 +15,25 @@ func NewAccount(db pkg.DBExecutor) accountIfra {
 	}
 }
 
-func (a accountIfra) Create(documentNumber string, balance float64) (int64, error) {
-	stmt, err := a.db.Prepare(`insert into account (document_number, balance) values(?,?)`)
+func (a accountIfra) Create(accountID string, documentNumber string, balance float64) error {
+	stmt, err := a.db.Prepare(`insert into account (id, document_number, balance) values(?,?,?)`)
 	if err != nil {
-		return 0, err
+		return err
 	}
-	res, err := stmt.Exec(documentNumber, balance)
+	_, err = stmt.Exec(accountID, documentNumber, balance)
 	if err != nil {
-		return 0, err
-	}
-
-	id, err := res.LastInsertId()
-
-	if err != nil {
-		return 0, err
+		return err
 	}
 
 	err = stmt.Close()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	return id, nil
+	return nil
 }
 
-func (t accountIfra) Update(accountId int, newBalance float64) error {
+func (t accountIfra) Update(accountId string, newBalance float64) error {
 	_, err := t.db.Exec("update account set balance = ? where id = ?", newBalance,
 		accountId)
 
@@ -50,7 +44,7 @@ func (t accountIfra) Update(accountId int, newBalance float64) error {
 	return nil
 }
 
-func (a accountIfra) Get(accountId int) (entity.Account, error) {
+func (a accountIfra) Get(accountId string) (entity.Account, error) {
 	stmt, err := a.db.Prepare(`select id, document_number, balance from account where id = ?`)
 	if err != nil {
 		return entity.Account{}, err

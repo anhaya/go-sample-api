@@ -161,14 +161,14 @@ const docTemplate = `{
             ],
             "properties": {
                 "account_id": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "amount": {
                     "type": "number"
                 },
                 "operation_type_id": {
                     "type": "integer",
-                    "maximum": 4,
+                    "maximum": 2,
                     "minimum": 1
                 }
             }
@@ -183,7 +183,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         }

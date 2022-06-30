@@ -22,8 +22,8 @@ func NewTransaction(usecase transaction.UseCase) TransactionHandler {
 }
 
 type CreateTransactionRequest struct {
-	AccountId       int     `json:"account_id" validate:"required"`
-	OperationTypeId int     `json:"operation_type_id" validate:"required,min=1,max=4"`
+	AccountId       string  `json:"account_id" validate:"required"`
+	OperationTypeId int     `json:"operation_type_id" validate:"required,min=1,max=2"`
 	Amount          float64 `json:"amount" validate:"required,NotNegative"`
 }
 

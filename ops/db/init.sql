@@ -2,7 +2,7 @@ create database if not exists goapi;
 use goapi;
 
 create table if not exists account (
-    id int NOT NULL AUTO_INCREMENT, 
+    id varchar(50) NOT NULL, 
     document_number varchar(15) NOT NULL,
     balance DECIMAL(64,8) NOT NULL,
     PRIMARY KEY (`id`)
@@ -10,7 +10,7 @@ create table if not exists account (
 
 CREATE TABLE transaction (
     id INT NOT NULL AUTO_INCREMENT,
-    account_id INT NOT NULL,
+    account_id varchar(50) NOT NULL,
     operation_type_id INT NOT NULL,
     amount DECIMAL(64,8) NOT NULL,
     event_date DATETIME NOT NULL,
